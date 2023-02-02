@@ -66,7 +66,7 @@ resource "aws_iam_policy" "ecs_policy" {
       {
         Action = [             
         "ecr:GetAuthorizationToken",
-         "iam:CreateRole",
+        "iam:CreateRole",
         "ecr:BatchCheckLayerAvailability",
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
