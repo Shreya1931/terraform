@@ -26,7 +26,7 @@ on:
         description: Choose your resource
         options: 
         - ecr
-        
+        - ecs-fargate-rolling
       region:
         description: The region to deploy ECR to
 #         required: true
