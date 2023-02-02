@@ -27,6 +27,7 @@ on:
         options: 
         - ecr
         - ecs-fargate-rolling
+        - ecs-fargate-rolling-CD
       region:
         description: The region to deploy ECR to
 #         required: true
