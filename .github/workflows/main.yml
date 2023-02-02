@@ -1,0 +1,79 @@
+name: 'Terraform'
+# on:
+# push:
+#    branches:
+#   - "master"
+#  pull_request:
+on:
+  workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        description: Action
+        options: 
+        - TerraformApply
+        - TerraformDestroy
+      environment:
+        type: choice
+        description: Environment
+        options: 
+        - devl
+        - qual
+        - cert
+        - prod
+      resource:
+        type: choice
+        description: Choose your resource
+        options: 
+        - ecs
+        
+      region:
+        description: The region to deploy ECR to
+#         required: true
+        default: us-west-2     
+jobs:
+  TerraformApply:
+#    if: ${{ inputs.choice }}== 'TerraformApply' 
+    if: ${{ inputs.choice == 'TerraformApply' }}
+    name: 'Terraform'
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ${{inputs.resource}}
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v3
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+#     - shell: bash
+#       run: cd Infra/Terraform/ 
+    - name: Terraform Init
+      run: terraform init
+    # Checks that all Terraform configuration files adhere to a canonical format
+#     - name: Terraform Format
+#       run: terraform fmt -check
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform init && terraform plan -var-file="env_params/devl.tfvars"
+    - name: Terraform Apply
+      if: "contains(${{ inputs.choice }}==TerraformApply, 'Running Terraform Apply')"
+      run: terraform init && terraform apply -var-file="env_params/${{ inputs.environment }}.tfvars" --auto-approve
+  TerraformDestroy:
+#    if: ${{ inputs.choice }}== 'TerraformApply' 
+    if: ${{ inputs.choice == 'TerraformDestroy' }}
+    name: 'Terraform-D'
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ${{inputs.resource}}
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v3
+    - name: Terraform Destroy
+      if: "contains(${{ inputs.choice }}==TerraformDestroy, 'Terraform Destroy')"
+      run: terraform init && terraform destroy -var-file="env_params/${{ inputs.environment }}.tfvars" --auto-approve      
+#     - name: Terraform Apply
+#       run: terraform init && terraform apply -var-file="env_params/${{ inputs.environment }}.tfvars" --auto-approve
+#     - name: Terraform Destroy
+#       if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
+#     - name: destroy 
+#       run: terraform init && terraform destroy -var-file="env_params/${{ inputs.environment }}.tfvars" --auto-approve
