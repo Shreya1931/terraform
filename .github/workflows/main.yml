@@ -25,7 +25,7 @@ on:
         type: choice
         description: Choose your resource
         options: 
-        - ecs
+        - ecr
         
       region:
         description: The region to deploy ECR to
