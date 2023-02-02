@@ -9,10 +9,10 @@ aws_region = "us-west-2"
 create_sg_rules = true
 
 // vpc_id for ECS stack
-vpc_id = "vpc-49be512f"
+vpc_id = "vpc-0131d72d38ca88c2c"
 
 // subnet_ids for ECS stack
-subnet_ids = [ "subnet-f8f129a3", "subnet-86229fad" ]
+subnet_ids = [ "subnet-05ad716bcc8faec2c", "subnet-08bf0b1a8f6824372" ]
 // IP CIDR from which 80 & 443 will be allowed in loadbalancer SG
 web_lb_cidr = ["0.0.0.0/0"]
 
