@@ -30,7 +30,6 @@ jobs:
         
     - name: Build & Push  to ECR
       run: |
-        ls
         docker build -t app_modernization/ecr_repo maven/.
         docker tag app_modernization/ecr_repo:latest 410398157274.dkr.ecr.us-west-2.amazonaws.com/app_modernization/ecr_repo:latest
         docker push 410398157274.dkr.ecr.us-west-2.amazonaws.com/app_modernization/ecr_repo:latest
